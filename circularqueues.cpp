@@ -7,14 +7,14 @@ public:
     Node *next;
     Node(int value) : data(value), next(NULL) {}
 };
-class QueuesLinkedlist
+class CircularQueues
 {
 private:
     Node *head;
     Node *tail;
 
 public:
-    QueuesLinkedlist() : head(NULL), tail(NULL) {}
+    CircularQueues() : head(NULL), tail(NULL) {}
 
     void push(int value)
     {
@@ -22,33 +22,38 @@ public:
         if (!head)
         {
             head = tail = newNode;
+            tail->next = head;
         }
         else
         {
             tail->next = newNode;
             tail = newNode;
+            tail->next = head;
         }
     }
     void pop()
     {
         Node *temp = head;
-        cout <<"POP: "<<temp->data << endl;
+        cout << "POP: " << temp->data << endl;
         head = temp->next;
+        tail->next = head;
         delete temp;
     }
     void display()
     {
         Node *temp = head;
-        while (temp != NULL)
+        do
         {
             cout << temp->data << " ";
             temp = temp->next;
-        }
+        } while (temp != head);
+
+        cout << "Back to front: " << tail->next->data << endl;
     }
 };
 int main()
 {
-    QueuesLinkedlist q1;
+    CircularQueues q1;
     q1.push(10);
     q1.push(20);
     q1.push(30);
